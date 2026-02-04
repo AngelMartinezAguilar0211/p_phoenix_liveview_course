@@ -8,24 +8,6 @@ defmodule PPhoenixLiveviewCourseWeb.BlackjackLive do
     {:ok, socket |> init_deck() |> first_deal()}
   end
 
-  @impl true
-  def render(assigns) do
-    ~H"""
-    <section>
-      <strong>Blackjack</strong>
-      <div>
-        Deck: {inspect(@cards)}
-      </div>
-      <div>
-        Player: {inspect(@player)}
-      </div>
-      <div>
-        CPU: {inspect(@cpu)}
-      </div>
-    </section>
-    """
-  end
-
   defp init_deck(socket) do
     socket |> assign(cards: @cards, player: [], cpu: [])
   end
