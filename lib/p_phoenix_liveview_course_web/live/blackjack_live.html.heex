@@ -1,12 +1,36 @@
 <section>
   <strong>Blackjack</strong>
-  <div>
-    Deck: {inspect(@cards, charlists: :as_lists)}
+  <h3 class="text-xl">Deck</h3>
+  <div class="flex flex-row justify-center gap-2 my-2">
+    <%= for card <- @cards do %>
+      <span class="bg-neutral-950 text-white text-lg rounded-sm  px-4 py-2 inline-flex items-center justify-center">
+        {card}
+      </span>
+    <% end %>
   </div>
-  <div>
-    Player: {inspect(@player, charlists: :as_lists)}
+
+  <h3 class="text-xl">CPU</h3>
+  <div class="flex flex-row justify-center gap-2 my-2">
+    <span class="bg-red-600 text-white text-lg rounded-sm  px-4 py-2 inline-flex items-center justify-center">
+      {@cpu |> Enum.at(0)}
+    </span>
   </div>
-  <div>
-    CPU: {inspect(@cpu, charlists: :as_lists)}
+
+  <h3 class="text-xl">PLAYER</h3>
+  <div class="flex flex-row justify-center gap-2 my-2">
+    <%= for card <- @player do %>
+      <span class="bg-blue-600 text-white text-lg rounded-sm  px-4 py-2 inline-flex items-center justify-center">
+        {card}
+      </span>
+    <% end %>
   </div>
+
+  <footer class="flex flex-row justify-center gap-2 mt-8">
+    <button class="shadow-lg bg-gray-500 text-white text-lg rounded-md px-4 py-2 inline-flex items-center justify-center">
+      Draw
+    </button>
+    <button class="shadow-lg bg-gray-800 text-white text-lg rounded-md px-4 py-2 inline-flex items-center justify-center">
+      Stand
+    </button>
+  </footer>
 </section>
