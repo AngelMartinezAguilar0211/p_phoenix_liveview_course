@@ -17,7 +17,20 @@
     <img src={@game.image_upload} alt="Game Image" width="300" />
   </:item>
   <:item title="Tomatoes Rating">
-    good: {@tomatoes.good} / bad: {@tomatoes.bad}
+    <div>
+      <GameComponent.tomatoe_button
+        type={:good}
+        count={@tomatoes.good}
+        game_id={@game.id}
+        on_tomatoe="on_tomatoe"
+      />
+      <GameComponent.tomatoe_button
+        type={:bad}
+        count={@tomatoes.bad}
+        game_id={@game.id}
+        on_tomatoe="on_tomatoe"
+      />
+    </div>
   </:item>
 </.list>
 

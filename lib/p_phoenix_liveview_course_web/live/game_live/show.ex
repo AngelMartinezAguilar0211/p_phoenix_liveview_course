@@ -4,6 +4,7 @@ defmodule PPhoenixLiveviewCourseWeb.GameLive.Show do
   alias PPhoenixLiveviewCourse.Catalog
   alias PPhoenixLiveviewCourse.Rating
   alias PPhoenixLiveviewCourse.Rating.Tomatoes
+  alias PPhoenixLiveviewCourseWeb.GameLive.GameComponent
 
   @impl true
   def mount(_params, _session, socket) do
