@@ -20,16 +20,32 @@ defmodule PPhoenixLiveviewCourseWeb.PokemonLive do
 
     p2_pokemon = random_pokemon(socket)
 
-    winner = battle(p1_pokemon, p2_pokemon)
+    result = battle(p1_pokemon, p2_pokemon)
+
+    payload =
+      case battle(p1_pokemon, p2_pokemon) do
+        :draw ->
+          %{status: :draw, winner: nil, loser: nil}
+
+        {:p1, :p2} ->
+          %{
+            status: :p1,
+            winner: %{player: :p1, pokemon: p1_pokemon},
+            loser: %{player: :p2, pokemon: p2_pokemon}
+          }
+
+        {:p2, :p1} ->
+          %{
+            status: :p2,
+            winner: %{player: :p2, pokemon: p2_pokemon},
+            loser: %{player: :p1, pokemon: p1_pokemon}
+          }
+      end
 
     {:noreply,
      socket
-     |> assign(p1_pokemon: p1_pokemon, p2_pokemon: p2_pokemon, winner: winner)
-     |> push_event("battle:start", %{
-       p1_pokemon: p1_pokemon,
-       p2_pokemon: p2_pokemon,
-       winner: %{player: elem(winner, 0), pokemon: elem(winner, 1)}
-     })}
+     |> assign(p1_pokemon: p1_pokemon, p2_pokemon: p2_pokemon, result: result)
+     |> push_event("battle:start", payload)}
   end
 
   #  PRIVATES
@@ -65,27 +81,11 @@ defmodule PPhoenixLiveviewCourseWeb.PokemonLive do
 
   defp battle(p1_pokemon, p2_pokemon) do
     cond do
-      p1_pokemon.type == :fire && p2_pokemon.type == :grass -> {:p1, p1_pokemon}
-      p1_pokemon.type == :water && p2_pokemon.type == :fire -> {:p1, p1_pokemon}
-      p1_pokemon.type == :grass && p2_pokemon.type == :water -> {:p1, p1_pokemon}
-      p1_pokemon.type == p2_pokemon.type -> {:draw, nil}
-      true -> {:p2, p2_pokemon}
-    end
-  end
-
-  defp winner_id(winner) do
-    case winner do
-      {:p1, _} -> "#p1-pokemon"
-      {:p2, _} -> "#p2-pokemon"
-      _ -> "#dummy"
-    end
-  end
-
-  defp loser_id(winner) do
-    case winner do
-      {:p1, _} -> "#p2-pokemon"
-      {:p2, _} -> "#p1-pokemon"
-      _ -> "#dummy"
+      p1_pokemon.type == :fire && p2_pokemon.type == :grass -> {:p1, :p2}
+      p1_pokemon.type == :water && p2_pokemon.type == :fire -> {:p1, :p2}
+      p1_pokemon.type == :grass && p2_pokemon.type == :water -> {:p1, :p2}
+      p1_pokemon.type == p2_pokemon.type -> :draw
+      true -> {:p2, :p1}
     end
   end
 end

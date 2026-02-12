@@ -9,7 +9,7 @@
   <div
     :if={@p1_pokemon && @p2_pokemon}
     class="pokemon-battle"
-    name={if @winner |> elem(0) == :draw, do: "draw_battle"}
+    name={if @result == :draw, do: "draw_battle"}
     id="battle-area"
     phx-hook="PokemonBattle"
   >
@@ -18,16 +18,7 @@
     <PokemonComponent.pokemon_card pokemon={@p2_pokemon} player="Player 2" id="p2-pokemon" />
   </div>
 
-  <button
-    :if={@p1_pokemon && @p2_pokemon}
-    id="battle-button"
-    class="battle-button"
-    phx-click={
-      JS.toggle_class("winner-animation", to: winner_id(@winner))
-      |> JS.hide(transition: "loser-animation", to: loser_id(@winner), time: 1500)
-      |> JS.toggle_class("draw-animation", to: "[name='draw_battle']")
-    }
-  >
+  <button :if={@p1_pokemon && @p2_pokemon} id="battle-button" class="battle-button">
     Battle
   </button>
 </section>
