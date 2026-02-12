@@ -13,9 +13,17 @@
     id="battle-area"
     phx-hook="PokemonBattle"
   >
-    <PokemonComponent.pokemon_card pokemon={@p1_pokemon} player="Player 1" id="p1-pokemon" />
+    <PokemonComponent.pokemon_card
+      pokemon={@p1_pokemon}
+      player={if @player == :p1, do: "You", else: "Player 1"}
+      id="p1-pokemon"
+    />
 
-    <PokemonComponent.pokemon_card pokemon={@p2_pokemon} player="Player 2" id="p2-pokemon" />
+    <PokemonComponent.pokemon_card
+      pokemon={@p2_pokemon}
+      player={if @player == :p2, do: "You", else: "Player 2"}
+      id="p2-pokemon"
+    />
   </div>
 
   <button :if={@p1_pokemon && @p2_pokemon} id="battle-button" class="battle-button">
