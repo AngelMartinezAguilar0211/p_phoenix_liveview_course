@@ -6,7 +6,16 @@
     </.link>
   </:actions>
 </.header>
-
+<div class="my-4">
+  <.form for={@form} phx-change="search">
+    <.input
+      field={@form[:query]}
+      type="search"
+      placeholder="Search games..."
+      phx-debounce="300"
+    />
+  </.form>
+</div>
 <.table
   id="games"
   rows={@streams.games}
