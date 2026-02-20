@@ -101,4 +101,15 @@ defmodule PPhoenixLiveviewCourse.Catalog do
   def change_game(%Game{} = game, attrs \\ %{}) do
     Game.changeset(game, attrs)
   end
+
+  @doc """
+    Searches for games by name.
+    """
+    def search_games(query_string) do
+      search_term = "%#{query_string}%"
+
+      Game
+      |> where([g], ilike(g.name, ^search_term))
+      |> Repo.all()
+    end
 end
