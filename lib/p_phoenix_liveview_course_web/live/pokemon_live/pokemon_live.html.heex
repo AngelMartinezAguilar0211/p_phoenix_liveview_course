@@ -7,8 +7,27 @@
   </div>
 
   <h2>Battle area</h2>
-  <div class="pokemon-battle" id="battle-area"></div>
+  <div :if={@p1 && @p1} class="pokemon-battle" id="battle-area">
+    <PokemonComponents.pokemon_card
+      pokemon={@p1.pokemon}
+      player={@p1.name}
+      id={"#{@p1.id}-pokemon"}
+    />
 
-  <h2>Battle results:</h2>
-  <div class="pokemon-battle"></div>
+    <PokemonComponents.pokemon_card
+      pokemon={@p2.pokemon}
+      player={@p2.name}
+      id={"#{@p2.id}-pokemon"}
+    />
+  </div>
+
+  <h2 :if={@battle_result}>Battle results:</h2>
+  <div :if={@battle_result} class="pokemon-battle">
+    <PokemonComponents.pokemon_card
+      :if={@battle_result.winner}
+      pokemon={@battle_result.winner.pokemon}
+      player={@battle_result.winner.name}
+    />
+    <span :if={@battle_result.status == :draw}> DRAW!</span>
+  </div>
 </section>
