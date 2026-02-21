@@ -7,7 +7,12 @@
   </div>
 
   <h2>Battle area</h2>
-  <div :if={@p1 && @p1} class="pokemon-battle" id="battle-area">
+  <div
+    :if={@p1 && @p1}
+    class="pokemon-battle"
+    id="battle-area"
+    name={if @battle_result, do: "#{@battle_result.status}-battle", else: "battle"}
+  >
     <PokemonComponents.pokemon_card
       pokemon={@p1.pokemon}
       player={@p1.name}
@@ -21,13 +26,21 @@
     />
   </div>
 
-  <h2 :if={@battle_result}>Battle results:</h2>
-  <div :if={@battle_result} class="pokemon-battle">
-    <PokemonComponents.pokemon_card
-      :if={@battle_result.winner}
-      pokemon={@battle_result.winner.pokemon}
-      player={@battle_result.winner.name}
-    />
-    <span :if={@battle_result.status == :draw}> DRAW!</span>
-  </div>
+  <button
+    :if={@battle_result != nil}
+    class="battle-button"
+    phx-click={
+      JS.toggle_class("winner-animation",
+        to: "##{@battle_result.winner && @battle_result.winner.id}-pokemon"
+      )
+      |> JS.hide(
+        transition: "loser-animation",
+        to: "##{@battle_result.loser && @battle_result.loser.id}-pokemon",
+        time: 1500
+      )
+      |> JS.toggle_class("draw-animation", to: "[name='draw-battle']")
+    }
+  >
+    Battle
+  </button>
 </section>
