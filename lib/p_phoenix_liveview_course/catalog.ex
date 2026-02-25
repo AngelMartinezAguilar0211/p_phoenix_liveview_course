@@ -103,13 +103,23 @@ defmodule PPhoenixLiveviewCourse.Catalog do
   end
 
   @doc """
-    Searches for games by name.
-    """
-    def search_games(query_string) do
-      search_term = "%#{query_string}%"
+  Searches for games by name.
+  """
+  def search_games(query_string) do
+    search_term = "%#{query_string}%"
 
-      Game
-      |> where([g], ilike(g.name, ^search_term))
-      |> Repo.all()
-    end
+    Game
+    |> where([g], ilike(g.name, ^search_term))
+    |> Repo.all()
+  end
+
+  @doc """
+  Increments the views field by 1 for given game
+  """
+  def inc_game_views(%Game{} = game) do
+    from(g in Game, where: g.id == ^game.id)
+    |> Repo.update_all(inc: [views: 1])
+
+    get_game!(game.id)
+  end
 end
